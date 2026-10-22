@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ScamShield — Online Scam Detection &amp; Web Security Platform</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ══ NAV ══════════════════════════════════════════════════════════ -->
+<nav class="navbar">
+  <div class="nav-brand">
+    <span class="shield-icon">🛡️</span>
+    <span class="brand-name">ScamShield</span>
+    <span class="brand-sub">Cybersecurity Platform</span>
+  </div>
+  <div class="nav-links">
+    <a href="#dashboard"    class="nav-link active" data-section="dashboard">Dashboard</a>
+    <a href="#url-checker"  class="nav-link" data-section="url-checker">URL Checker</a>
+    <a href="#web-scanner"  class="nav-link" data-section="web-scanner">Web Scanner</a>
+    <a href="#scam-detector"class="nav-link" data-section="scam-detector">Scam Detect</a>
+    <a href="#fake-job"     class="nav-link" data-section="fake-job">Fake Job</a>
+    <a href="#upi-scams"    class="nav-link" data-section="upi-scams">UPI Scams</a>
+    <a href="#safety-score" class="nav-link" data-section="safety-score">Safety Score</a>
+    <a href="#records"      class="nav-link" data-section="records">Records</a>
+  </div>
+  <div class="nav-status">
+    <span class="status-dot"></span>
+    <span>Server Active</span>
+  </div>
+</nav>
+
+<!-- ══ HERO ══════════════════════════════════════════════════════════ -->
+<header class="hero">
+  <div class="hero-content">
+    <h1 class="hero-title">ScamShield</h1>
+    <p class="hero-tagline">Online Scam Detection &amp; Web Security Platform</p>
+    <p class="demo-badge">⚠️ DEMO MODE — Results are rule-based and do not guarantee real-world safety</p>
+  </div>
+  <div class="hero-particles" id="particles"></div>
+</header>
+
+<!-- ══ DASHBOARD ══════════════════════════════════════════════════════ -->
+<main class="main-content">
+
+  <!-- STATS CARDS -->
+  <section id="dashboard" class="section">
+    <h2 class="section-title">Dashboard Overview</h2>
+    <div class="stats-grid">
+      <div class="stat-card" data-color="cyan">
+        <div class="stat-icon">🔍</div>
+        <div class="stat-value" id="stat-total">0</div>
+        <div class="stat-label">Total Scans</div>
+        <div class="stat-bar"><div class="stat-fill" id="bar-total" style="width:0%"></div></div>
+      </div>
+      <div class="stat-card" data-color="green">
+        <div class="stat-icon">✅</div>
+        <div class="stat-value" id="stat-safe">0</div>
+        <div class="stat-label">Safe URLs</div>
+        <div class="stat-bar"><div class="stat-fill" id="bar-safe" style="width:0%"></div></div>
+      </div>
+      <div class="stat-card" data-color="yellow">
+        <div class="stat-icon">⚠️</div>
+        <div class="stat-value" id="stat-suspicious">0</div>
+        <div class="stat-label">Suspicious URLs</div>
+        <div class="stat-bar"><div class="stat-fill" id="bar-suspicious" style="width:0%"></div></div>
+      </div>
+      <div class="stat-card" data-color="red">
+        <div class="stat-icon">🚨</div>
+        <div class="stat-value" id="stat-scams">0</div>
+        <div class="stat-label">Scams Detected</div>
+        <div class="stat-bar"><div class="stat-fill" id="bar-scams" style="width:0%"></div></div>
+      </div>
+    </div>
+
+    <!-- BAR GRAPH -->
+    <div class="chart-card glass-card">
+      <h3 class="card-title">📊 Scan Activity (Last 7 Days)</h3>
+      <canvas id="activityChart" width="800" height="240"></canvas>
+    </div>
+  </section>
+
+  <!-- 1. PHISHING URL CHECKER -->
+  <section id="url-checker" class="section">
+    <h2 class="section-title">🔗 Phishing URL Checker</h2>
+    <div class="glass-card tool-card">
+      <p class="tool-desc">Enter a URL to check for phishing indicators such as suspicious keywords, unsafe TLDs, and IP-based domains.</p>
+      <div class="input-row">
+        <input type="text" id="url-input" class="cyber-input" placeholder="https://example.com/login" />
+        <button class="cyber-btn" onclick="checkURL()">Scan URL</button>
+      </div>
+      <div id="url-result" class="result-box hidden"></div>
+      <div class="demo-note">⚠️ Demo: results based on keyword rules only. Not a real security scanner.</div>
+    </div>
+  </section>
+
+  <!-- 2. WEBSITE SECURITY SCANNER -->
+  <section id="web-scanner" class="section">
+    <h2 class="section-title">🌐 Website Security Scanner</h2>
+    <div class="glass-card tool-card">
+      <p class="tool-desc">Simulates checks for HTTPS, security headers (CSP, HSTS, X-Frame-Options), and CORS misconfigurations on authorized websites.</p>
+      <div class="input-row">
+        <input type="text" id="web-input" class="cyber-input" placeholder="https://yoursite.com" />
+        <button class="cyber-btn" onclick="scanWebsite()">Run Scanner</button>
+      </div>
+      <div id="web-result" class="result-box hidden"></div>
+      <div class="demo-note">⚠️ Demo: simulated header checks. Only scan websites you own or have permission to test.</div>
+    </div>
+  </section>
+
+  <!-- 3. SCAM MESSAGE DETECTOR -->
+  <section id="scam-detector" class="section">
+    <h2 class="section-title">📩 Scam Message Detector</h2>
+    <div class="glass-card tool-card">
+      <p class="tool-desc">Paste a suspicious SMS or email text to detect common scam patterns like lottery frauds, OTP phishing, and bank impersonation.</p>
+      <div class="input-row vertical">
+        <textarea id="msg-input" class="cyber-textarea" placeholder="Paste suspicious SMS or email text here..."></textarea>
+        <button class="cyber-btn" onclick="checkMessage()">Analyze Message</button>
+      </div>
+      <div id="msg-result" class="result-box hidden"></div>
+      <div class="demo-note">⚠️ Demo: keyword-based scam detection only.</div>
+    </div>
+  </section>
+
+  <!-- 4. FAKE JOB DETECTOR -->
+  <section id="fake-job" class="section">
+    <h2 class="section-title">💼 Fake Job Detector</h2>
+    <div class="glass-card tool-card">
+      <p class="tool-desc">Paste a job offer or advertisement to identify red flags like upfront payment requests, unrealistic salaries, or money-mule patterns.</p>
+      <div class="input-row vertical">
+        <textarea id="job-input" class="cyber-textarea" placeholder="Paste job advertisement text here..."></textarea>
+        <button class="cyber-btn" onclick="checkJob()">Analyze Job Post</button>
+      </div>
+      <div id="job-result" class="result-box hidden"></div>
+      <div class="demo-note">⚠️ Demo: rule-based analysis only. Always verify jobs through official channels.</div>
+    </div>
+  </section>
+
+  <!-- 5. UPI SCAM AWARENESS -->
+  <section id="upi-scams" class="section">
+    <h2 class="section-title">💳 UPI Scam Awareness</h2>
+    <div class="upi-grid">
+      <div class="upi-card glass-card">
+        <div class="upi-icon">📲</div>
+        <h4>Receive Money QR Scam</h4>
+        <p>Scammers send a QR code claiming "scan to receive money." Scanning it actually <strong>debits</strong> your account. Never scan unknown QR codes.</p>
+        <span class="risk-badge red">HIGH RISK</span>
+      </div>
+      <div class="upi-card glass-card">
+        <div class="upi-icon">🏦</div>
+        <h4>Fake KYC Update Calls</h4>
+        <p>Fraudsters pose as bank/UPI officials asking you to share OTP or install remote-access apps (AnyDesk, TeamViewer) to "update KYC." Banks never ask for OTPs.</p>
+        <span class="risk-badge red">HIGH RISK</span>
+      </div>
+      <div class="upi-card glass-card">
+        <div class="upi-icon">🎁</div>
+        <h4>Cashback / Reward Fraud</h4>
+        <p>Fake messages promise cashback but ask you to send ₹1 first to "verify your account." The small payment leads to larger unauthorized debits.</p>
+        <span class="risk-badge yellow">MEDIUM RISK</span>
+      </div>
+      <div class="upi-card glass-card">
+        <div class="upi-icon">🔗</div>
+        <h4>Phishing Payment Links</h4>
+        <p>Links like "pay.upi-claim-reward.xyz" mimic genuine UPI pages. Always verify the payment URL and recipient VPA before authorizing any transaction.</p>
+        <span class="risk-badge red">HIGH RISK</span>
+      </div>
+      <div class="upi-card glass-card">
+        <div class="upi-icon">📞</div>
+        <h4>Screen Share Fraud</h4>
+        <p>Callers claiming to be customer support ask you to share your screen. This gives them visibility of your PIN and banking apps in real time.</p>
+        <span class="risk-badge red">HIGH RISK</span>
+      </div>
+      <div class="upi-card glass-card">
+        <div class="upi-icon">💰</div>
+        <h4>Send ₹1 to Collect ₹1000</h4>
+        <p>Classic advance-fee fraud adapted for UPI. No legitimate service requires a small payment to release a larger reward. Ignore and report.</p>
+        <span class="risk-badge yellow">MEDIUM RISK</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. CYBERSECURITY SAFETY SCORE -->
+  <section id="safety-score" class="section">
+    <h2 class="section-title">🛡️ Cybersecurity Safety Score</h2>
+    <div class="glass-card tool-card">
+      <p class="tool-desc">Answer a few quick questions to estimate your personal cybersecurity hygiene score.</p>
+      <div class="quiz-grid" id="quiz-form">
+        <label class="quiz-item"><input type="checkbox" id="q1" /><span>I use a different password for every important account.</span></label>
+        <label class="quiz-item"><input type="checkbox" id="q2" /><span>I have two-factor authentication (2FA) enabled on my email and banking apps.</span></label>
+        <label class="quiz-item"><input type="checkbox" id="q3" /><span>I check URLs before clicking links in emails or SMS.</span></label>
+        <label class="quiz-item"><input type="checkbox" id="q4" /><span>My device OS and apps are kept up-to-date.</span></label>
+        <label class="quiz-item"><input type="checkbox" id="q5" /><span>I avoid using public Wi-Fi for banking or sensitive logins.</span></label>
+        <label class="quiz-item"><input type="checkbox" id="q6" /><span>I never share OTPs, PINs, or passwords with anyone, even support staff.</span></label>
+        <label class="quiz-item"><input type="checkbox" id="q7" /><span>I use a reputable antivirus or security suite.</span></label>
+        <label class="quiz-item"><input type="checkbox" id="q8" /><span>I regularly review app permissions on my phone.</span></label>
+      </div>
+      <button class="cyber-btn mt-20" onclick="calcSafetyScore()">Calculate My Score</button>
+      <div id="score-result" class="score-display hidden"></div>
+      <div class="demo-note">⚠️ Demo: self-assessment quiz. Not a professional security audit.</div>
+    </div>
+  </section>
+
+  <!-- 7. RECORDS TABLE -->
+  <section id="records" class="section">
+    <h2 class="section-title">📋 Cybersecurity Scan Records</h2>
+    <div class="glass-card">
+      <div class="table-toolbar">
+        <input type="text" id="search-input" class="cyber-input search-input" placeholder="🔍 Search records..." oninput="filterTable()" />
+        <button class="cyber-btn secondary" onclick="generateSampleData()">⚡ Generate Sample Data</button>
+        <button class="cyber-btn secondary" onclick="exportCSV()">📥 Export CSV</button>
+      </div>
+      <div class="table-wrap">
+        <table class="cyber-table" id="records-table">
+          <thead>
+            <tr>
+              <th onclick="sortTable(0)">#</th>
+              <th onclick="sortTable(1)">Target</th>
+              <th onclick="sortTable(2)">Type</th>
+              <th onclick="sortTable(3)">Verdict</th>
+              <th onclick="sortTable(4)">Risk Score</th>
+              <th onclick="sortTable(5)">Date</th>
+            </tr>
+          </thead>
+          <tbody id="records-body"></tbody>
+        </table>
+      </div>
+      <div class="table-footer">
+        <span id="record-count">0 records</span>
+        <div class="pagination" id="pagination"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ══ FOOTER ══════════════════════════════════════════════════════════ -->
+<footer class="site-footer">
+  <p>🛡️ ScamShield — Educational Cybersecurity Demo Platform</p>
+  <p class="footer-note">All scan results are rule-based demonstrations and <strong>do not guarantee real-world safety</strong>. Always consult professional security tools for actual threat assessment.</p>
+  <p class="footer-small">Built with C (Winsock2) + HTML/CSS/JS &nbsp;|&nbsp; Compatible with IBM Bob</p>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
